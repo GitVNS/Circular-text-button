@@ -59,8 +59,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       backgroundColor: Colors.white,
       body: Center(
         child: SizedBox(
-          height: 300,
-          width: 300,
+          height: 200,
+          width: 200,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -76,17 +76,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               ScaleTransition(
                 scale: buttonScale,
                 child: Container(
-                  height: 140,
-                  width: 70,
+                  height: 100,
+                  width: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: Colors.black, width: 8),
+                    border: Border.all(color: Colors.black, width: 6),
                   ),
                   alignment: Alignment.topCenter,
-                  padding: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 15),
                   child: Container(
-                    width: 20,
-                    height: 20,
+                    width: 15,
+                    height: 15,
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: Colors.black),
                   ),
