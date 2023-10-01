@@ -19,16 +19,44 @@ class MainApp extends StatelessWidget {
   }
 }
 
-const String string = 'CLICK HERE FOR SURPRISES * ';
+const String string = 'CLICK HERE FOR THE SURPRISES * ';
 List<String> characters = string.split('');
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late AnimationController _animationController1;
+  late Animation<double> buttonScale;
+
+  @override
+  void initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 7))
+          ..repeat();
+    _animationController1 =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..repeat(reverse: true);
+    buttonScale = Tween<double>(begin: 0.9, end: 1).animate(CurvedAnimation(
+        parent: _animationController1, curve: Curves.easeInOut));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Center(
         child: SizedBox(
           height: 300,
@@ -36,22 +64,32 @@ class Home extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              for (int i = 0; i < characters.length; i++)
-                buildPie(context: context, index: i),
-              Container(
-                height: 140,
-                width: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: Colors.white, width: 6),
+              RotationTransition(
+                turns: _animationController,
+                child: Stack(
+                  children: [
+                    for (int i = 0; i < characters.length; i++)
+                      buildPie(context: context, index: i)
+                  ],
                 ),
-                alignment: Alignment.topCenter,
-                padding: const EdgeInsets.only(top: 22),
+              ),
+              ScaleTransition(
+                scale: buttonScale,
                 child: Container(
-                  width: 20,
-                  height: 20,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.white),
+                  height: 140,
+                  width: 70,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(color: Colors.black, width: 8),
+                  ),
+                  alignment: Alignment.topCenter,
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.black),
+                  ),
                 ),
               ),
             ],
@@ -77,7 +115,7 @@ class Home extends StatelessWidget {
           child: Text(
             characters[index],
             style: GoogleFonts.montserrat(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+                color: Colors.black, fontSize: 18, fontWeight: FontWeight.w800),
           ),
         ),
       ),
